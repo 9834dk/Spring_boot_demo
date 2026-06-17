@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.util.List;
 import com.example.Spring_boot_demo.dto.StudentDTO;
 
 /**
@@ -7,6 +8,12 @@ import com.example.Spring_boot_demo.dto.StudentDTO;
  * 定义了针对学生的业务操作规范
  */
 public interface StudentService {
+
+    /**
+     * 查询所有学生记录
+     * @return 返回所有学生的列表
+     */
+    List<StudentDTO> getAllStudents();
 
     /**
      * 根据学生 ID 查询学生详细信息
@@ -33,7 +40,11 @@ public interface StudentService {
      * @param id 学生的主键 ID
      * @param name 新的姓名（如果传空或与原来相同则不更新）
      * @param email 新的邮箱（如果传空或与原来相同则不更新）
+     * @param age 新的年龄（如果传空或与原来相同则不更新）
+     * @param gender 新的性别
+     * @param hobby 新的爱好
+     * @param grade 新的年级
      * @return 返回更新成功后的学生 DTO 对象
      */
-    StudentDTO updateStudentById(long id, String name, String email);
+    StudentDTO updateStudentById(long id, String name, String email, Integer age, String gender, String hobby, String grade);
 }

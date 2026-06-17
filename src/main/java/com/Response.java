@@ -13,8 +13,8 @@ public class Response<T> {
 
     }
 
-    public static Response<Void> newFail(String errorMeg) {
-        Response<Void> response = new Response<>();
+    public static <K> Response<K> newFail(String errorMeg) {
+        Response<K> response = new Response<>();
         response.setErrorMsg(errorMeg);
         response.setSuccess(false);
         return response;

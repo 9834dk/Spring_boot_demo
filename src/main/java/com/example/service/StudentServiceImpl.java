@@ -26,6 +26,15 @@ public class StudentServiceImpl implements StudentService {
     private StudentRepository studentRepository;
 
     /**
+     * 查询所有学生
+     */
+    @Override
+    public List<StudentDTO> getAllStudents() {
+        List<Student> students = studentRepository.findAll();
+        return students.stream().map(StudentConverter::convertStudent).toList();
+    }
+
+    /**
      * 查询指定 ID 的学生
      */
     @Override
@@ -67,7 +76,7 @@ public class StudentServiceImpl implements StudentService {
      */
     @Override
     @Transactional // 开启事务保证数据库操作的一致性
-    public StudentDTO updateStudentById(long id, String name, String email) {
+    public StudentDTO updateStudentById(long id, String name, String email, Integer age, String gender, String hobby, String grade) {
         // 先从数据库查出该学生
         Student studentInDB = studentRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("id:" + id + "doesn’t exist!"));
@@ -79,6 +88,19 @@ public class StudentServiceImpl implements StudentService {
         // 如果传入了 email 参数且与数据库中的不同，则更新邮箱
         if (StringUtils.hasLength(email) && !studentInDB.getEmail().equals(email)) {
             studentInDB.setEmail(email);
+        }
+        // 如果传入了 age 参数且与数据库中的不同，则更新年龄
+        if (age != null && studentInDB.getAge() != age) {
+            studentInDB.setAge(age);
+        }
+        if (StringUtils.hasLength(gender) && !gender.equals(studentInDB.getGender())) {
+            studentInDB.setGender(gender);
+        }
+        if (StringUtils.hasLength(hobby) && !hobby.equals(studentInDB.getHobby())) {
+            studentInDB.setHobby(hobby);
+        }
+        if (StringUtils.hasLength(grade) && !grade.equals(studentInDB.getGrade())) {
+            studentInDB.setGrade(grade);
         }
         
         // 保存修改后的实体

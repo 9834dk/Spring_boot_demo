@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora | Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-body">
+    <div class="background-aurora"></div>
+    
+    <div class="login-container glass-panel">
+        <div class="logo login-logo">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <h2>Aurora</h2>
+        </div>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="auth-form active">
+            <h3>Welcome Back</h3>
+            <p class="subtitle">Sign in to manage your students</p>
+            
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="loginUsername" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="loginPassword" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary w-100 mt-20" style="width: 100%; justify-content: center;">Sign In</button>
+            <p class="toggle-text">Don't have an account? <span onclick="toggleAuth()">Register here</span></p>
+        </form>
+
+        <!-- Register Form -->
+        <form id="registerForm" class="auth-form">
+            <h3>Create Account</h3>
+            <p class="subtitle">Join us to manage your students</p>
+            
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="regUsername" required>
+            </div>
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="regEmail" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="regPassword" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary w-100 mt-20" style="width: 100%; justify-content: center;">Sign Up</button>
+            <p class="toggle-text">Already have an account? <span onclick="toggleAuth()">Login here</span></p>
+        </form>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>

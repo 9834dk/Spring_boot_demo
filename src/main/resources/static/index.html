@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora | Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="background-aurora"></div>
+    
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar glass-panel">
+            <div class="logo">
+                <i class="fa-solid fa-graduation-cap"></i>
+                <h2>Aurora</h2>
+            </div>
+            
+            <div class="user-profile">
+                <div class="avatar"><i class="fa-solid fa-user"></i></div>
+                <div class="user-info">
+                    <h4 id="displayUsername">Loading...</h4>
+                    <span class="badge">Admin</span>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-target="studentsSection">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Students</span>
+                </a>
+                <a href="#" class="nav-item" data-target="analyticsSection">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="#" class="nav-item" data-target="settingsSection">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </a>
+                <div style="flex-grow: 1;"></div>
+                <a href="#" class="nav-item text-danger" onclick="logout()">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- SECTION: Students -->
+            <div id="studentsSection" class="page-section active">
+                <header class="header">
+                    <div>
+                        <h1>Student Directory</h1>
+                        <p class="subtitle">Manage and monitor student information seamlessly.</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openModal()">
+                        <i class="fa-solid fa-plus"></i> Add Student
+                    </button>
+                </header>
+
+                <section class="content-area glass-panel">
+                    <div class="table-container">
+                        <table class="data-table" id="studentTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Age</th>
+                                    <th>Gender</th>
+                                    <th>Grade</th>
+                                    <th>Hobby</th>
+                                    <th>Email</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentTableBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <!-- SECTION: Analytics -->
+            <div id="analyticsSection" class="page-section" style="display: none;">
+                <header class="header">
+                    <div>
+                        <h1>Analytics Overview</h1>
+                        <p class="subtitle">Insights into student demographics and data.</p>
+                    </div>
+                </header>
+
+                <div class="stats-grid">
+                    <div class="stat-card glass-panel">
+                        <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+                        <div class="stat-details">
+                            <h3>Total Students</h3>
+                            <h2 id="statTotal">0</h2>
+                        </div>
+                    </div>
+                    <div class="stat-card glass-panel">
+                        <div class="stat-icon" style="color: #10b981;"><i class="fa-solid fa-cake-candles"></i></div>
+                        <div class="stat-details">
+                            <h3>Avg Age</h3>
+                            <h2 id="statAvgAge">0</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="content-area glass-panel mt-20" style="display: flex; justify-content: center; align-items: center; min-height: 400px;">
+                    <div style="width: 100%; max-width: 500px;">
+                        <canvas id="ageDistributionChart"></canvas>
+                    </div>
+                </section>
+            </div>
+
+            <!-- SECTION: Settings -->
+            <div id="settingsSection" class="page-section" style="display: none;">
+                <header class="header">
+                    <div>
+                        <h1>Account Settings</h1>
+                        <p class="subtitle">Manage your profile and security preferences.</p>
+                    </div>
+                </header>
+
+                <div class="settings-grid">
+                    <section class="content-area glass-panel">
+                        <h3>Profile Information</h3>
+                        <p class="subtitle mb-20">Update your account email.</p>
+                        <form id="profileForm">
+                            <div class="form-group">
+                                <label>Username (Read-only)</label>
+                                <input type="text" id="setCurrUsername" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address</label>
+                                <input type="email" id="setCurrEmail" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-20">Update Profile</button>
+                        </form>
+                    </section>
+
+                    <section class="content-area glass-panel">
+                        <h3>Security</h3>
+                        <p class="subtitle mb-20">Change your password.</p>
+                        <form id="passwordForm">
+                            <div class="form-group">
+                                <label>Current Password</label>
+                                <input type="password" id="setOldPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label>New Password</label>
+                                <input type="password" id="setNewPassword" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-20">Change Password</button>
+                        </form>
+                    </section>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Modal for Add/Edit Student -->
+    <div class="modal-overlay" id="studentModal">
+        <div class="modal glass-panel">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New Student</h3>
+                <button class="close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="studentForm">
+                    <input type="hidden" id="studentId">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="studentName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Age</label>
+                        <input type="number" id="studentAge" min="1" max="120" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select id="studentGender" required style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white;">
+                            <option value="" style="color: black;">Select Gender</option>
+                            <option value="Male" style="color: black;">Male</option>
+                            <option value="Female" style="color: black;">Female</option>
+                            <option value="Other" style="color: black;">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Grade</label>
+                        <select id="studentGrade" required style="width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white;">
+                            <option value="" style="color: black;">Select Grade</option>
+                            <option value="Freshman" style="color: black;">Freshman</option>
+                            <option value="Sophomore" style="color: black;">Sophomore</option>
+                            <option value="Junior" style="color: black;">Junior</option>
+                            <option value="Senior" style="color: black;">Senior</option>
+                            <option value="Graduate" style="color: black;">Graduate</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Hobby</label>
+                        <input type="text" id="studentHobby" placeholder="e.g. Reading, Sports" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="studentEmail" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Student</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

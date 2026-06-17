@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import java.util.List;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,13 +28,32 @@ public class StudentController {
     private StudentService studentService;
 
     /**
+     * 获取所有学生列表
+     * @return 包含所有学生数据的统一响应对象
+     */
+    @GetMapping("/students")
+    public Response<List<StudentDTO>> getAllStudents() {
+        try {
+            return Response.newSuccess(studentService.getAllStudents());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.newFail(e.getMessage());
+        }
+    }
+
+    /**
      * 根据学生 ID 查询学生信息
      * @param id 学生的唯一标识 (通过 URL 路径传递)
      * @return 包含学生数据 (StudentDTO) 的统一响应对象
      */
     @GetMapping("/student/{id}")
     public Response<StudentDTO> getStudentById(@PathVariable long id) {
-        return Response.newSuccess(studentService.getStudentById(id));
+        try {
+            return Response.newSuccess(studentService.getStudentById(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.newFail(e.getMessage());
+        }
     }
 
     /**
@@ -43,7 +63,12 @@ public class StudentController {
      */
     @PostMapping("/student")
     public Response<Long> addNewStudent(@RequestBody StudentDTO studentDTO) {
-        return Response.newSuccess(studentService.addNewStudent(studentDTO));
+        try {
+            return Response.newSuccess(studentService.addNewStudent(studentDTO));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.newFail(e.getMessage());
+        }
     }
 
     /**
@@ -53,8 +78,13 @@ public class StudentController {
      */
     @DeleteMapping("/student/{id}")
     public Response<Void> deleteStudentById(@PathVariable long id) {
-        studentService.deleteStudentById(id);
-        return Response.newSuccess(null);
+        try {
+            studentService.deleteStudentById(id);
+            return Response.newSuccess(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.newFail(e.getMessage());
+        }
     }
 
     /**
@@ -67,7 +97,16 @@ public class StudentController {
     @PutMapping("/student/{id}")
     public Response<StudentDTO> updateStudentById(@PathVariable long id, 
                                                   @RequestParam(required = false) String name, 
-                                                  @RequestParam(required = false) String email) {
-        return Response.newSuccess(studentService.updateStudentById(id, name, email));
+                                                  @RequestParam(required = false) String email,
+                                                  @RequestParam(required = false) Integer age,
+                                                  @RequestParam(required = false) String gender,
+                                                  @RequestParam(required = false) String hobby,
+                                                  @RequestParam(required = false) String grade) {
+        try {
+            return Response.newSuccess(studentService.updateStudentById(id, name, email, age, gender, hobby, grade));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.newFail(e.getMessage());
+        }
     }
 }

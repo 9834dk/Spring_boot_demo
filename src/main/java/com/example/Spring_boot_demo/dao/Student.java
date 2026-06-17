@@ -25,6 +25,15 @@ public class Student {
     @Column(name = "age")
     private int age;
 
+    @Column(name = "gender")
+    private String gender;
+
+    @Column(name = "hobby")
+    private String hobby;
+
+    @Column(name = "grade")
+    private String grade;
+
     public long getId() {
         return id;
     }
@@ -55,5 +64,29 @@ public class Student {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getHobby() {
+        return hobby;
+    }
+
+    public void setHobby(String hobby) {
+        this.hobby = hobby;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 }

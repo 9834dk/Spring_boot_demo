@@ -21,6 +21,15 @@ public class StudentDTO {
      */
     private String email;
 
+    /**
+     * 学生的年龄
+     */
+    private Integer age;
+
+    private String gender;
+    private String hobby;
+    private String grade;
+
     public void setId(long id) {
         this.id = id;
     }
@@ -43,6 +52,38 @@ public class StudentDTO {
 
     public String getEmail() {
         return email;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getHobby() {
+        return hobby;
+    }
+
+    public void setHobby(String hobby) {
+        this.hobby = hobby;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 
 }
